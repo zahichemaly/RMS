@@ -6,8 +6,10 @@ MenuItem menuItem = new MenuItem("Burger", 10.0m);
 MenuItem menuItem2 = new MenuItem("French Fries", 2.0m);
 menuItem2.currency = 1;
 menu.MenuItems.Add(menuItem);
+menu.MenuItems.Add(menuItem);
+menu.MenuItems.Add(menuItem2);
 
-SpecialMenuItem specialMenuItem = new SpecialMenuItem("Pizza", 12.0m, DayOfWeek.Wednesday, 8.0m);
+SpecialMenuItem specialMenuItem = new SpecialMenuItem("Pizza", 16.0m, DateTime.Now.DayOfWeek, 12.0m);
 menu.specialItems.Add(specialMenuItem);
 
 // 2 bugers, 1 french fries
