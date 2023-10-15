@@ -1,32 +1,48 @@
 ﻿namespace RMS
 {
-    public class MenuItem
+    public abstract class BaseMenuItem
     {
-        public string name { get; set; }
-        public decimal price { get; set; }
-        public int currency { get; set; }
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+        public int Currency { get; set; }
 
-        public MenuItem(string name, decimal price)
+        public BaseMenuItem(string name, decimal price)
         {
-            this.name = name;
-            this.price = price;
+            this.Name = name;
+            this.Price = price;
         }
     }
 
-    public class SpecialMenuItem
+    public class MenuItem : BaseMenuItem, IMenu
     {
-        public string name { get; set; }
-        public decimal price { get; set; }
-        public DayOfWeek day_of_week { get; set; }
-        public decimal special_price { get; set; }
-        public int currency { get; set; }
-
-        public SpecialMenuItem(string name, decimal price, DayOfWeek day_of_week, decimal special_price)
+        public MenuItem(string name, decimal price): base(name, price)
         {
-            this.name = name;
-            this.price = price;
-            this.day_of_week = day_of_week;
-            this.special_price = special_price;
+        }
+
+        public decimal GetCalculatedPrice()
+        {
+            return Price.ToConvertedCurrency(Currency);
+        }
+    }
+
+    public class SpecialMenuItem : BaseMenuItem, IMenu
+    {
+        public DayOfWeek DayOfWeek { get; set; }
+        public decimal SpecialPrice { get; set; }
+
+        public SpecialMenuItem(string name, decimal price, DayOfWeek dayOfWeek, decimal specialPrice): base(name, price)
+        {
+            this.DayOfWeek = dayOfWeek;
+            this.SpecialPrice = specialPrice;
+        }
+
+        public decimal GetCalculatedPrice()
+        {
+            if (DayOfWeek == DateTime.Today.DayOfWeek)
+            {
+                return SpecialPrice.ToConvertedCurrency(Currency);
+            }
+            return Price.ToConvertedCurrency(Currency);
         }
     }
 }
